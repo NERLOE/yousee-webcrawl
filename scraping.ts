@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 
 export async function IsPhoneInStock(phone: PhoneStock) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: { width: 1920, height: 1080 },
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
     executablePath: "/usr/bin/chromium-browser",
@@ -51,7 +51,7 @@ export async function IsPhoneInStock(phone: PhoneStock) {
 // https://yousee.dk/mobil/mobiltelefoner/?icid=mp_pop_No_Term_All
 export async function scrapePhones() {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
     executablePath: "/usr/bin/chromium-browser",
   });
