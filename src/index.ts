@@ -1,14 +1,9 @@
+import { PhoneStock } from "./global.d";
 require("dotenv").config();
-const { createTransport } = require("nodemailer");
-const { scrapePhones, IsPhoneInStock } = require("./scraping");
-
-export interface PhoneStock {
-  name: string;
-  link: string;
-  brand: string;
-  previewImage: string;
-  status?: boolean;
-}
+import { createTransport } from "nodemailer";
+import { scrapePhones, IsPhoneInStock } from "./components/scraping";
+import { getScreenshot } from "./utils/tools";
+import fs from "fs";
 
 var transporter = createTransport({
   service: "gmail",
@@ -32,13 +27,18 @@ async function ScrapeAllPhones() {
     if (!stock[phone.name]) {
       console.log(phone.name + " stock initialized.");
       stock[phone.name] = { ...phone, status };
-    } else if (stock[phone.name].status != status) {
-      console.log(phone.name + " STOCK UPDATED!!!!", status);
-      stock[phone.name] = { ...phone, status };
 
       transporter.sendMail({
         from: "YouSee Webscrape",
         to: process.env.EMAI_RECEIVERS,
+        attachments: [
+          {
+            filename: phone.name + ".png",
+            content: fs.createReadStream(
+              `${process.cwd()}/screenshots/${phone.name}.png`
+            ),
+          },
+        ],
         subject:
           phone.brand +
           " " +
@@ -51,6 +51,9 @@ async function ScrapeAllPhones() {
           status ? "på lager" : "ikke længere på lager"
         }.</p><img src="${phone.previewImage}" alt="${phone.name} billede" />`,
       });
+    } else if (stock[phone.name].status != status) {
+      console.log(phone.name + " STOCK UPDATED!!!!", status);
+      stock[phone.name] = { ...phone, status };
     }
   });
 }

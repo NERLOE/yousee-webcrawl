@@ -9,11 +9,15 @@
   "author": "NERLOE",
   "license": "ISC",
   "dependencies": {
+    "@types/filesystem": "^0.0.29",
     "cheerio": "^1.0.0-rc.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.4.18",
     "puppeteer": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.0"
   }
 }

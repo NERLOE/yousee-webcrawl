@@ -1,13 +1,21 @@
-import { PhoneStock } from "./index";
+import { PhoneStock } from "./../global.d";
 const puppeteer = require("puppeteer");
+const defaultBrowserOptions = {
+  headless: true,
+  defaultViewport: { width: 1920, height: 1080 },
+};
+const defaultProductionBrowserOptions = {
+  ...defaultBrowserOptions,
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  executablePath: "/usr/bin/chromium-browser",
+};
 
 export async function IsPhoneInStock(phone: PhoneStock) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    defaultViewport: { width: 1920, height: 1080 },
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath: "/usr/bin/chromium-browser",
-  });
+  const browser = await puppeteer.launch(
+    process.env.NODE_ENV == "development"
+      ? defaultBrowserOptions
+      : defaultProductionBrowserOptions
+  );
   const page = await browser.newPage();
 
   await page.goto(phone.link);
@@ -50,11 +58,11 @@ export async function IsPhoneInStock(phone: PhoneStock) {
 // Leder gennem alle mobiler på denne side, hvor ordet "iPhone" er inkuderet.
 // https://yousee.dk/mobil/mobiltelefoner/?icid=mp_pop_No_Term_All
 export async function scrapePhones() {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath: "/usr/bin/chromium-browser",
-  });
+  const browser = await puppeteer.launch(
+    process.env.NODE_ENV == "development"
+      ? defaultBrowserOptions
+      : defaultProductionBrowserOptions
+  );
   const page = await browser.newPage();
 
   await page.goto("https://yousee.dk/mobil/mobiltelefoner/");

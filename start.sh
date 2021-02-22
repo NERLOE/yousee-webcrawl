@@ -1,1 +1,1 @@
-screen -S "YouSeeWebscrape" -U -m -d node dist/index.js
+screen -S "YouSeeWebscrape" -U -m -d nodemon dist/index.js
