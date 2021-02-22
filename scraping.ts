@@ -6,6 +6,7 @@ export async function IsPhoneInStock(phone: PhoneStock) {
     headless: false,
     defaultViewport: { width: 1920, height: 1080 },
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: "/usr/bin/chromium-browser",
   });
   const page = await browser.newPage();
 
@@ -52,6 +53,7 @@ export async function scrapePhones() {
   const browser = await puppeteer.launch({
     headless: false,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: "/usr/bin/chromium-browser",
   });
   const page = await browser.newPage();
 
