@@ -27,6 +27,9 @@ async function ScrapeAllPhones() {
     if (!stock[phone.name]) {
       console.log(phone.name + " stock initialized.");
       stock[phone.name] = { ...phone, status };
+    } else if (stock[phone.name].status != status) {
+      console.log(phone.name + " STOCK UPDATED!!!!", status);
+      stock[phone.name] = { ...phone, status };
 
       transporter.sendMail({
         from: "YouSee Webscrape",
@@ -51,9 +54,6 @@ async function ScrapeAllPhones() {
           status ? "på lager" : "ikke længere på lager"
         }.</p><img src="${phone.previewImage}" alt="${phone.name} billede" />`,
       });
-    } else if (stock[phone.name].status != status) {
-      console.log(phone.name + " STOCK UPDATED!!!!", status);
-      stock[phone.name] = { ...phone, status };
     }
   });
 }
