@@ -51,7 +51,7 @@ export async function IsPhoneInStock(phone: PhoneStock) {
 export async function scrapePhones() {
   const browser = await puppeteer.launch({
     headless: false,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: ["--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
 
