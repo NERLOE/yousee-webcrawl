@@ -33,7 +33,7 @@ async function ScrapeAllPhones() {
 
       transporter.sendMail({
         from: "YouSee Webscrape",
-        to: process.env.EMAI_RECEIVERS,
+        to: process.env.EMAIL_RECEIVERS,
         attachments: [
           {
             filename: phone.name + ".png",
@@ -52,7 +52,9 @@ async function ScrapeAllPhones() {
           phone.name
         } er ændret. Telefonen er nu ${
           status ? "på lager" : "ikke længere på lager"
-        }.</p><img src="${phone.previewImage}" alt="${phone.name} billede" />`,
+        }.</p><a href="${phone.link}">${phone.link}</a>"<a href="${
+          phone.link
+        }"><img src="${phone.previewImage}" alt="${phone.name} billede" /></a>`,
       });
     }
   });
